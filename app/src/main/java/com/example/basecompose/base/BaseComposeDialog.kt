@@ -1,5 +1,6 @@
 package com.example.basecompose.base
 
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AlertDialog
@@ -10,10 +11,10 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.example.basecompose.R
+import com.example.basecompose.ui.theme.dimens
 
 /**
  * Base Compose Dialog - Các Composable functions tái sử dụng cho dialogs.
@@ -97,11 +98,12 @@ fun BaseComposeDialog(
     ) {
         Surface(
             modifier = Modifier
+                .widthIn(max = MaterialTheme.dimens.dialogMaxWidth)
                 .fillMaxWidth()
-                .padding(horizontal = 24.dp),
+                .padding(horizontal = MaterialTheme.dimens.screenPaddingHorizontal),
             shape = MaterialTheme.shapes.extraLarge,
             color = MaterialTheme.colorScheme.surface,
-            tonalElevation = 6.dp
+            tonalElevation = MaterialTheme.dimens.elevationMedium
         ) {
             content()
         }
@@ -154,6 +156,6 @@ fun BaseAlertDialog(
             }
         },
         shape = MaterialTheme.shapes.extraLarge,
-        tonalElevation = 6.dp
+        tonalElevation = MaterialTheme.dimens.elevationMedium
     )
 }

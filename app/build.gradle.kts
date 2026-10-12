@@ -34,10 +34,9 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
     buildFeatures {
+        viewBinding = true
         compose = true
     }
-    // App đổi ngôn ngữ ngay trong app (màn Language) -> AAB phải chứa đủ mọi ngôn ngữ,
-    // nếu không Play chỉ cài resource của ngôn ngữ máy và chuỗi sẽ bị thiếu.
     bundle {
         language {
             enableSplit = false
@@ -56,6 +55,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
 
     // Core
+    implementation(libs.appcompat)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.splashscreen)
 
@@ -73,6 +73,8 @@ dependencies {
     // Navigation
     implementation(libs.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.navigation.fragment.ktx)
+    implementation(libs.navigation.ui.ktx)
 
     // Coroutines
     implementation(libs.kotlinx.coroutines.core)

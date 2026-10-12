@@ -13,10 +13,12 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.foundation.layout.height
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.basecompose.base.BaseScreen
 import com.example.basecompose.ui.theme.BaseComposeTheme
+import com.example.basecompose.ui.theme.dimens
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -44,11 +46,20 @@ fun ExampleDetailContent(
     contentPadding: PaddingValues = PaddingValues(),
 ) {
     Column(
-        modifier = Modifier.fillMaxSize().padding(contentPadding).padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(contentPadding)
+            .padding(
+                horizontal = MaterialTheme.dimens.screenPaddingHorizontal,
+                vertical = MaterialTheme.dimens.screenPaddingVertical
+            ),
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.itemSpacing),
     ) {
         Text(text = state.item, style = MaterialTheme.typography.headlineMedium)
-        Button(onClick = { onEvent(ExampleDetailEvent.Back) }) {
+        Button(
+            onClick = { onEvent(ExampleDetailEvent.Back) },
+            modifier = Modifier.height(MaterialTheme.dimens.buttonHeight),
+        ) {
             Text("Quay lại")
         }
     }

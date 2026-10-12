@@ -108,7 +108,7 @@ fun SettingsDialog(current: GameSettings, onDismiss: () -> Unit, onApply: (GameS
             val preview = GameSettings(cut, board.first, board.second)
             BasicText(
                 "Mỗi ảnh ${cut * cut} mảnh · Level 1 có ${preview.pictureCount(1, PictureFactory.themeCount)} ảnh\n" +
-                    "Đổi cài đặt sẽ bắt đầu lại từ Level 1.",
+                        "Đổi cài đặt sẽ bắt đầu lại từ Level 1.",
                 style = Note,
             )
 

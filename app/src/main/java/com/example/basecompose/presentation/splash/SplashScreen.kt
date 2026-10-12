@@ -23,10 +23,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.basecompose.R
 import com.example.basecompose.base.BaseScreen
 import com.example.basecompose.ui.theme.BaseComposeTheme
+import com.example.basecompose.ui.theme.dimens
 
 @Composable
 fun SplashScreen(
@@ -61,12 +62,12 @@ fun SplashContent() {
         Column(
             modifier = Modifier.align(Alignment.Center),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.medium),
         ) {
             Box(
                 modifier = Modifier
-                    .size(112.dp)
-                    .clip(RoundedCornerShape(28.dp))
+                    .size(MaterialTheme.dimens.scaleDp(112.dp))
+                    .clip(RoundedCornerShape(MaterialTheme.dimens.space28))
                     .background(colorResource(R.color.splash_icon_background)),
             ) {
                 Image(
@@ -86,7 +87,10 @@ fun SplashContent() {
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .navigationBarsPadding()
-                .padding(horizontal = 64.dp, vertical = 48.dp),
+                .padding(
+                    horizontal = MaterialTheme.dimens.huge,
+                    vertical = MaterialTheme.dimens.extraExtraLarge
+                ),
             color = colorResource(R.color.splash_content),
             trackColor = colorResource(R.color.splash_content).copy(alpha = 0.2f),
         )

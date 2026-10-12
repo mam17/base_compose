@@ -24,6 +24,9 @@ import androidx.compose.ui.unit.dp
 import com.example.basecompose.R
 import com.example.basecompose.ui.theme.BaseComposeTheme
 
+import androidx.compose.foundation.layout.height
+import com.example.basecompose.ui.theme.dimens
+
 /**
  * Dialog thông báo mất kết nối Internet (bản Compose của DialogNetwork).
  *
@@ -40,21 +43,21 @@ fun NetworkDialog(
         dismissOnClickOutside = false,
     ) {
         Column(
-            modifier = Modifier.padding(24.dp),
+            modifier = Modifier.padding(MaterialTheme.dimens.dialogPadding),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(12.dp),
+            verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.itemSpacing),
         ) {
             Surface(
                 shape = CircleShape,
                 color = MaterialTheme.colorScheme.errorContainer,
-                modifier = Modifier.size(72.dp),
+                modifier = Modifier.size(MaterialTheme.dimens.space72),
             ) {
                 Box(contentAlignment = Alignment.Center) {
                     Icon(
                         painter = painterResource(R.drawable.ic_wifi_off),
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.onErrorContainer,
-                        modifier = Modifier.size(40.dp),
+                        modifier = Modifier.size(MaterialTheme.dimens.space40),
                     )
                 }
             }
@@ -69,10 +72,20 @@ fun NetworkDialog(
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center,
             )
-            Button(onClick = onRetry, modifier = Modifier.fillMaxWidth()) {
+            Button(
+                onClick = onRetry,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(MaterialTheme.dimens.buttonHeight),
+            ) {
                 Text(stringResource(R.string.network_retry))
             }
-            OutlinedButton(onClick = onOpenSettings, modifier = Modifier.fillMaxWidth()) {
+            OutlinedButton(
+                onClick = onOpenSettings,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(MaterialTheme.dimens.buttonHeight),
+            ) {
                 Text(stringResource(R.string.network_settings))
             }
         }

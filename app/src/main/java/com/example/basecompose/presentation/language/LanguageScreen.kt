@@ -27,11 +27,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.basecompose.R
 import com.example.basecompose.base.BaseScreen
 import com.example.basecompose.domain.model.AppLanguage
 import com.example.basecompose.ui.theme.BaseComposeTheme
+
+import androidx.compose.foundation.layout.height
+import com.example.basecompose.ui.theme.dimens
 
 /**
  * @param onLanguageApplied được gọi sau khi đã lưu ngôn ngữ; `needRecreate` = phải recreate Activity
@@ -56,7 +59,8 @@ fun LanguageScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .navigationBarsPadding()
-                    .padding(16.dp),
+                    .padding(horizontal = MaterialTheme.dimens.screenPaddingHorizontal, vertical = MaterialTheme.dimens.small)
+                    .height(MaterialTheme.dimens.buttonHeight),
             ) {
                 Text(stringResource(R.string.common_continue))
             }
@@ -75,12 +79,12 @@ fun LanguageContent(
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(
-            start = 16.dp,
-            end = 16.dp,
-            top = contentPadding.calculateTopPadding() + 8.dp,
-            bottom = contentPadding.calculateBottomPadding() + 8.dp,
+            start = MaterialTheme.dimens.screenPaddingHorizontal,
+            end = MaterialTheme.dimens.screenPaddingHorizontal,
+            top = contentPadding.calculateTopPadding() + MaterialTheme.dimens.small,
+            bottom = contentPadding.calculateBottomPadding() + MaterialTheme.dimens.small,
         ),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.itemSpacing),
     ) {
         items(state.languages, key = { it.code }) { language ->
             LanguageItem(
@@ -109,12 +113,12 @@ private fun LanguageItem(
                 MaterialTheme.colorScheme.surfaceContainerLow
             },
         ),
-        border = if (selected) BorderStroke(2.dp, MaterialTheme.colorScheme.primary) else null,
+        border = if (selected) BorderStroke(MaterialTheme.dimens.borderNormal, MaterialTheme.colorScheme.primary) else null,
     ) {
         Row(
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+            modifier = Modifier.padding(horizontal = MaterialTheme.dimens.medium, vertical = MaterialTheme.dimens.space12),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.medium),
         ) {
             Text(text = language.flag, style = MaterialTheme.typography.headlineMedium)
             Column(Modifier.weight(1f)) {

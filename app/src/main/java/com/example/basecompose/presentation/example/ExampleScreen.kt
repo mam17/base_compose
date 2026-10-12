@@ -20,10 +20,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.basecompose.base.BaseScreen
 import com.example.basecompose.base.LoadState
 import com.example.basecompose.ui.theme.BaseComposeTheme
+import com.example.basecompose.ui.theme.dimens
 import com.example.basecompose.utils.extensions.debouncedClickable
 
 /**
@@ -65,7 +66,9 @@ fun ExampleContent(
             onValueChange = { onEvent(ExampleEvent.QueryChanged(it)) },
             label = { Text("Tìm kiếm") },
             singleLine = true,
-            modifier = Modifier.fillMaxWidth().padding(16.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = MaterialTheme.dimens.screenPaddingHorizontal, vertical = MaterialTheme.dimens.small),
         )
 
         when (val items = state.items) {
@@ -76,7 +79,7 @@ fun ExampleContent(
             is LoadState.Error -> Text(
                 text = items.message.asString(),
                 color = MaterialTheme.colorScheme.error,
-                modifier = Modifier.padding(16.dp),
+                modifier = Modifier.padding(MaterialTheme.dimens.screenPadding),
             )
             is LoadState.Success -> LazyColumn {
                 items(items.data, key = { it }) { item ->

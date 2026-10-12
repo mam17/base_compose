@@ -36,10 +36,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.basecompose.R
 import com.example.basecompose.base.BaseScreen
 import com.example.basecompose.ui.theme.BaseComposeTheme
+import com.example.basecompose.ui.theme.dimens
 import kotlinx.coroutines.launch
 
 @Composable
@@ -75,11 +76,11 @@ fun OnboardingContent(
             .padding(contentPadding),
     ) {
         // Nút "Bỏ qua" ẩn ở trang cuối nhưng vẫn giữ chỗ để layout không nhảy
-        Box(Modifier.fillMaxWidth().height(48.dp)) {
+        Box(Modifier.fillMaxWidth().height(MaterialTheme.dimens.minTouchTarget)) {
             if (!isLastPage) {
                 TextButton(
                     onClick = { onEvent(OnboardingEvent.Finish) },
-                    modifier = Modifier.align(Alignment.CenterEnd).padding(end = 8.dp),
+                    modifier = Modifier.align(Alignment.CenterEnd).padding(end = MaterialTheme.dimens.small),
                 ) {
                     Text(stringResource(R.string.onboarding_skip))
                 }
@@ -96,7 +97,7 @@ fun OnboardingContent(
         PageIndicator(
             pageCount = state.pages.size,
             currentPage = pagerState.currentPage,
-            modifier = Modifier.align(Alignment.CenterHorizontally).padding(vertical = 24.dp),
+            modifier = Modifier.align(Alignment.CenterHorizontally).padding(vertical = MaterialTheme.dimens.large),
         )
 
         Button(
@@ -109,7 +110,12 @@ fun OnboardingContent(
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
+                .padding(
+                    start = MaterialTheme.dimens.screenPaddingHorizontal,
+                    end = MaterialTheme.dimens.screenPaddingHorizontal,
+                    bottom = MaterialTheme.dimens.screenPaddingVertical
+                )
+                .height(MaterialTheme.dimens.buttonHeight),
         ) {
             Text(stringResource(if (isLastPage) R.string.onboarding_get_started else R.string.onboarding_next))
         }
@@ -121,13 +127,14 @@ private fun OnboardingPageContent(page: OnboardingPage) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 32.dp),
+            .padding(horizontal = MaterialTheme.dimens.extraLarge),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
+        val imageContainerSize = if (MaterialTheme.dimens.isCompact) 180.dp else 240.dp
         Box(
             modifier = Modifier
-                .size(200.dp)
+                .size(imageContainerSize)
                 .clip(CircleShape)
                 .background(MaterialTheme.colorScheme.primaryContainer),
             contentAlignment = Alignment.Center,
@@ -136,16 +143,16 @@ private fun OnboardingPageContent(page: OnboardingPage) {
                 painter = painterResource(page.image),
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimaryContainer),
-                modifier = Modifier.size(96.dp),
+                modifier = Modifier.size(MaterialTheme.dimens.space96),
             )
         }
-        Spacer(Modifier.height(40.dp))
+        Spacer(Modifier.height(MaterialTheme.dimens.space40))
         Text(
             text = stringResource(page.title),
             style = MaterialTheme.typography.headlineSmall,
             textAlign = TextAlign.Center,
         )
-        Spacer(Modifier.height(12.dp))
+        Spacer(Modifier.height(MaterialTheme.dimens.space12))
         Text(
             text = stringResource(page.description),
             style = MaterialTheme.typography.bodyLarge,
@@ -161,17 +168,20 @@ private fun PageIndicator(
     currentPage: Int,
     modifier: Modifier = Modifier,
 ) {
-    Row(modifier = modifier, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+    Row(modifier = modifier, horizontalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.small)) {
         repeat(pageCount) { index ->
             val selected = index == currentPage
-            val width by animateDpAsState(if (selected) 24.dp else 8.dp, label = "indicatorWidth")
+            val width by animateDpAsState(
+                if (selected) MaterialTheme.dimens.large else MaterialTheme.dimens.small,
+                label = "indicatorWidth"
+            )
             val color by animateColorAsState(
                 if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant,
                 label = "indicatorColor",
             )
             Box(
                 Modifier
-                    .size(width = width, height = 8.dp)
+                    .size(width = width, height = MaterialTheme.dimens.small)
                     .clip(CircleShape)
                     .background(color),
             )

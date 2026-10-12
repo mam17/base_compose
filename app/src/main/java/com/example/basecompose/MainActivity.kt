@@ -11,7 +11,6 @@ import com.example.basecompose.navigation.AppNavHost
 import com.example.basecompose.utils.locale.AppLocale
 import dagger.hilt.android.AndroidEntryPoint
 
-/** Entry point duy nhất, toàn bộ UI nằm trong [BaseApp]. */
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
