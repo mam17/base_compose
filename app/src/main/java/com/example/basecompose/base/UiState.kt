@@ -1,62 +1,40 @@
 package com.example.basecompose.base
 
 /**
- * Sealed class đại diện cho các trạng thái UI phổ biến.
+ * Contract MVI (Model - View - Intent) dùng chung cho mọi màn hình.
  *
- * Sử dụng trong ViewModel để emit trạng thái và trong View để observe.
+ * Mỗi màn định nghĩa 3 kiểu trong file `XxxContract.kt`:
+ * - [UiState]  : toàn bộ dữ liệu để vẽ màn hình (data class, immutable).
+ * - [UiEvent]  : hành động từ UI gửi lên ViewModel (click, nhập text, refresh...).
+ * - [UiEffect] : sự kiện một lần từ ViewModel xuống UI (navigate, toast, mở dialog hệ thống...).
  *
- * @param T Kiểu dữ liệu trả về khi thành công
- *
- * Ví dụ sử dụng:
+ * Ví dụ:
  * ```kotlin
- * // Trong ViewModel
- * private val _userState = MutableStateFlow<UiState<User>>(UiState.Idle)
- * val userState: StateFlow<UiState<User>> = _userState.asStateFlow()
+ * data class HomeState(
+ *     val users: List<User> = emptyList(),
+ *     val query: String = "",
+ * ) : UiState
  *
- * fun loadUser() {
- *     _userState.value = UiState.Loading
- *     viewModelScope.launch {
- *         try {
- *             val user = repository.getUser()
- *             _userState.value = UiState.Success(user)
- *         } catch (e: Exception) {
- *             _userState.value = UiState.Error(e.message)
- *         }
- *     }
+ * sealed interface HomeEvent : UiEvent {
+ *     data class QueryChanged(val value: String) : HomeEvent
+ *     data class UserClicked(val id: String) : HomeEvent
  * }
  *
- * // Trong Activity/Fragment
- * viewModel.userState.collect { state ->
- *     when (state) {
- *         is UiState.Idle -> { }
- *         is UiState.Loading -> showLoading()
- *         is UiState.Success -> showData(state.data)
- *         is UiState.Error -> showError(state.message)
- *     }
+ * sealed interface HomeEffect : UiEffect {
+ *     data class OpenDetail(val id: String) : HomeEffect
  * }
  * ```
  */
-sealed class UiState<out T> {
+interface UiState
 
-    /** Trạng thái mặc định, chưa có action nào được thực hiện */
-    data object Idle : UiState<Nothing>()
+/** Hành động người dùng gửi từ UI lên ViewModel. Xem [UiState]. */
+interface UiEvent
 
-    /** Đang loading dữ liệu */
-    data object Loading : UiState<Nothing>()
+/** Sự kiện một lần (one-shot) gửi từ ViewModel xuống UI. Xem [UiState]. */
+interface UiEffect
 
-    /**
-     * Load dữ liệu thành công
-     * @param data Dữ liệu trả về
-     */
-    data class Success<T>(val data: T) : UiState<T>()
+/** Dùng cho màn không có event / effect. */
+data object NoEvent : UiEvent
 
-    /**
-     * Có lỗi xảy ra
-     * @param message Thông báo lỗi
-     * @param throwable Exception gốc (optional)
-     */
-    data class Error(
-        val message: String? = null,
-        val throwable: Throwable? = null
-    ) : UiState<Nothing>()
-}
+/** Dùng cho màn không có event / effect. */
+data object NoEffect : UiEffect

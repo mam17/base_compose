@@ -4,7 +4,6 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
-import android.net.NetworkRequest
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -50,37 +49,22 @@ class LiveNetworkMonitor @Inject constructor(
         // Phát ra trạng thái hiện tại ngay khi bắt đầu lắng nghe
         trySend(isCurrentlyConnected())
 
+        // Theo dõi DEFAULT network (network app thực sự dùng) để trạng thái luôn nhất quán
+        // với isCurrentlyConnected(), tránh nhấp nháy khi một network phụ thay đổi.
         val callback = object : ConnectivityManager.NetworkCallback() {
-            override fun onAvailable(network: Network) {
-                // Kiểm tra lại capabilities để đảm bảo network này có NET_CAPABILITY_INTERNET
-                val hasInternet = checkNetworkHasInternet(network)
-                trySend(hasInternet)
-            }
-
-            override fun onLost(network: Network) {
-                // Khi một network mất, kiểm tra xem còn network nào khác đang kết nối không
-                trySend(isCurrentlyConnected())
-            }
-
             override fun onCapabilitiesChanged(
                 network: Network,
                 networkCapabilities: NetworkCapabilities
             ) {
-                val hasInternet = networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
-                        networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
-                trySend(hasInternet)
+                trySend(networkCapabilities.hasValidatedInternet())
             }
 
-            override fun onUnavailable() {
+            override fun onLost(network: Network) {
                 trySend(false)
             }
         }
 
-        val request = NetworkRequest.Builder()
-            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-            .build()
-
-        connectivityManager.registerNetworkCallback(request, callback)
+        connectivityManager.registerDefaultNetworkCallback(callback)
 
         awaitClose {
             try {
@@ -95,14 +79,10 @@ class LiveNetworkMonitor @Inject constructor(
         val manager = connectivityManager ?: return false
         val activeNetwork = manager.activeNetwork ?: return false
         val capabilities = manager.getNetworkCapabilities(activeNetwork) ?: return false
-
-        return capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
-                capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+        return capabilities.hasValidatedInternet()
     }
 
-    private fun checkNetworkHasInternet(network: Network): Boolean {
-        val manager = connectivityManager ?: return false
-        val capabilities = manager.getNetworkCapabilities(network) ?: return false
-        return capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-    }
+    private fun NetworkCapabilities.hasValidatedInternet(): Boolean =
+        hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
+                hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
 }

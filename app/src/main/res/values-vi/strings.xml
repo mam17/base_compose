@@ -1,0 +1,33 @@
+<resources>
+    <!-- Common -->
+    <string name="common_ok">OK</string>
+    <string name="common_confirm">Xác nhận</string>
+    <string name="common_cancel">Hủy</string>
+    <string name="common_continue">Tiếp tục</string>
+
+    <!-- Error -->
+    <string name="error_title">Có lỗi xảy ra</string>
+    <string name="error_unknown">Đã xảy ra lỗi không xác định</string>
+    <string name="error_network">Không thể kết nối tới máy chủ. Vui lòng kiểm tra mạng và thử lại.</string>
+
+    <!-- Network -->
+    <string name="network_title">Mất kết nối Internet</string>
+    <string name="network_message">Không thể kết nối đến mạng. Vui lòng kiểm tra lại đường truyền Wi-Fi hoặc Dữ liệu di động của bạn.</string>
+    <string name="network_retry">Thử lại</string>
+    <string name="network_settings">Mở cài đặt mạng</string>
+    <string name="network_still_offline">Vẫn chưa có kết nối mạng</string>
+
+    <!-- Language -->
+    <string name="language_title">Ngôn ngữ</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_skip">Bỏ qua</string>
+    <string name="onboarding_next">Tiếp</string>
+    <string name="onboarding_get_started">Bắt đầu</string>
+    <string name="onboarding_title_1">Chào mừng bạn</string>
+    <string name="onboarding_desc_1">Mọi thứ bạn cần, gói gọn trong một ứng dụng.</string>
+    <string name="onboarding_title_2">Lưu mục yêu thích</string>
+    <string name="onboarding_desc_2">Giữ lại những gì bạn thích và tìm lại chỉ với một chạm.</string>
+    <string name="onboarding_title_3">Theo cách của bạn</string>
+    <string name="onboarding_desc_3">Tùy chỉnh ứng dụng phù hợp với cách bạn sử dụng.</string>
+</resources>

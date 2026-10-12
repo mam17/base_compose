@@ -1,3 +1,35 @@
 <resources>
-    <string name="app_name">Base Compose</string>
+    <string name="app_name" translatable="false">Base Compose</string>
+
+    <!-- Common -->
+    <string name="common_ok">OK</string>
+    <string name="common_confirm">Confirm</string>
+    <string name="common_cancel">Cancel</string>
+    <string name="common_continue">Continue</string>
+
+    <!-- Error -->
+    <string name="error_title">Something went wrong</string>
+    <string name="error_unknown">An unknown error occurred</string>
+    <string name="error_network">Unable to reach the server. Please check your connection and try again.</string>
+
+    <!-- Network -->
+    <string name="network_title">No Internet connection</string>
+    <string name="network_message">Unable to connect to the network. Please check your Wi-Fi or mobile data.</string>
+    <string name="network_retry">Try again</string>
+    <string name="network_settings">Open network settings</string>
+    <string name="network_still_offline">Still no network connection</string>
+
+    <!-- Language -->
+    <string name="language_title">Language</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_skip">Skip</string>
+    <string name="onboarding_next">Next</string>
+    <string name="onboarding_get_started">Get started</string>
+    <string name="onboarding_title_1">Welcome</string>
+    <string name="onboarding_desc_1">Everything you need, all in one place.</string>
+    <string name="onboarding_title_2">Save your favorites</string>
+    <string name="onboarding_desc_2">Keep the things you love and find them again in a tap.</string>
+    <string name="onboarding_title_3">Make it yours</string>
+    <string name="onboarding_desc_3">Personalize the app to fit the way you use it.</string>
 </resources>

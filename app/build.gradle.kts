@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.ksp)
 }
@@ -33,8 +34,14 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
     buildFeatures {
-        viewBinding = true
         compose = true
+    }
+    // App đổi ngôn ngữ ngay trong app (màn Language) -> AAB phải chứa đủ mọi ngôn ngữ,
+    // nếu không Play chỉ cài resource của ngôn ngữ máy và chuỗi sẽ bị thiếu.
+    bundle {
+        language {
+            enableSplit = false
+        }
     }
 }
 
@@ -50,13 +57,13 @@ dependencies {
 
     // Core
     implementation(libs.androidx.core.ktx)
-    implementation(libs.appcompat)
+    implementation(libs.androidx.core.splashscreen)
 
     // Lifecycle
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.lifecycle.livedata.ktx)
 
     // Hilt
     implementation(libs.hilt.android)
@@ -65,22 +72,16 @@ dependencies {
 
     // Navigation
     implementation(libs.navigation.compose)
-    implementation(libs.navigation.fragment.ktx)
-    implementation(libs.navigation.ui.ktx)
+    implementation(libs.kotlinx.serialization.json)
 
     // Coroutines
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
 
-    // RecyclerView
-    implementation(libs.recyclerview)
-
-    // Fragment
-    implementation(libs.fragment.ktx)
-
     // Test
     testImplementation(libs.junit)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.turbine)
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)

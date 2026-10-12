@@ -9,9 +9,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.example.basecompose.R
 
 /**
  * Base Compose Dialog - Các Composable functions tái sử dụng cho dialogs.
@@ -120,8 +122,8 @@ fun BaseComposeDialog(
 fun BaseAlertDialog(
     title: String,
     message: String,
-    confirmText: String = "Xác nhận",
-    dismissText: String? = "Hủy",
+    confirmText: String = stringResource(R.string.common_confirm),
+    dismissText: String? = stringResource(R.string.common_cancel),
     onConfirm: () -> Unit,
     onDismiss: () -> Unit
 ) {

@@ -2,4 +2,12 @@
 <resources>
 
     <style name="Theme.BaseCompose" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <!-- Theme lúc khởi động: splash hệ thống cùng màu với SplashScreen Compose -->
+    <style name="Theme.BaseCompose.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/splash_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="windowSplashScreenIconBackgroundColor">@color/splash_icon_background</item>
+        <item name="postSplashScreenTheme">@style/Theme.BaseCompose</item>
+    </style>
 </resources>
